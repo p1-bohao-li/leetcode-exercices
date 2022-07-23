@@ -25,48 +25,27 @@ class ListNode:
             currentNode.next = newNode
             currentNode = newNode
         return fakeHead.next
-    
 
 class Solution:
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
-
-        fakeHead = ListNode(-1)
-        currentNode = fakeHead
-        
-        longerListNode = None
-        carry = False
-        while l1 is not None or l2 is not None:
-            if l1 == None:
-                longerListNode = l2
-                break
-            if l2 == None:
-                longerListNode = l1
-                break
-            currentSum = l1.val + l2.val + (1 if carry else 0)
-            carry = currentSum > 9
-            digit = currentSum % 10
-            newNode = ListNode(digit)
-            currentNode.next = newNode
-            currentNode = newNode
-            l1 = l1.next
-            l2 = l2.next
-
-        while longerListNode is not None:
-            currentSum = longerListNode.val + (1 if carry else 0)
-            carry = currentSum > 9
-            digit = currentSum % 10
-            newNode = ListNode(digit)
-            currentNode.next = newNode
-            currentNode = newNode
-            longerListNode = longerListNode.next
+        dummyHead = ListNode(-1)
+        curr = dummyHead
+        carry = 0
+        while l1 != None or l2 != None or carry == 1:
+            v1 = l1.val if l1 else 0
+            v2 = l2.val if l2 else 0
+            colSum = v1 + v2 + carry
+            digit = colSum % 10
+            carry = colSum // 10
+            curr.next = ListNode(digit)
+            curr = curr.next
+            l1 = l1.next if l1 else None
+            l2 = l2.next if l2 else None
+        return dummyHead.next
 
 
-        return fakeHead.next
-
-
-
-list1 = [1, 2, 3, 4, 5]
-list2 = [4, 5, 9]
+list1 = [9,9,9,9,9,9,9]
+list2 = [9,9,9,9]
 listNode1 = ListNode.constructListNode(list1)
 listNode2 = ListNode.constructListNode(list2)
 listNode1.printSelf()
